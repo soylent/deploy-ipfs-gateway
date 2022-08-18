@@ -1,0 +1,32 @@
+#!/bin/sh
+# bin/compile BUILD_DIR CACHE_DIR ENV_DIR
+
+set -e
+
+build_dir=${1:-.}
+env_dir=${3:-.}
+
+kubo_version=$(cat "$env_dir/KUBO_VERSION" || echo "v0.14.0")
+kubo_url="https://github.com/ipfs/kubo/releases/download/${kubo_version}/kubo_${kubo_version}_linux-amd64.tar.gz"
+
+cd "$build_dir"
+
+echo "-----> Downloading and extracting kubo ${kubo_version}"
+curl --location --silent --fail --retry 3 "$kubo_url" | tar -xz --strip-components=1 kubo/ipfs
+
+export IPFS_PATH=.ipfs
+
+./ipfs init --profile=server > /dev/null
+# Disable fetching of remote data
+./ipfs config --json Gateway.NoFetch true
+# Disable resolving DNSLink at unknown hostnames
+./ipfs config --json Gateway.NoDNSLink true
+# Make the gateway writable
+./ipfs config --json Gateway.Writable true
+# Configure path gateway
+./ipfs config --json Gateway.PublicGateways '{
+  "g8way.herokuapp.com": {
+    "UseSubdomains": false,
+    "Paths": ["/ipfs", "/ipns", "/api"]
+  }
+}'

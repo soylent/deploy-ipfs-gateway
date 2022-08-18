@@ -1,0 +1,19 @@
+{
+  "name": "ipfs-gateway",
+  "description": "Personal IPFS gateway",
+  "stack": "heroku-20",
+  "website": "https://github.com/soylent/deploy-ipfs-gateway",
+  "repository": "https://github.com/soylent/deploy-ipfs-gateway",
+  "keywords": ["ipfs"],
+  "env": {
+    "KUBO_VERSION": {
+      "description": "kubo version",
+      "value": "v0.14.0"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "https://github.com/soylent/deploy-ipfs-gateway"
+    }
+  ]
+}

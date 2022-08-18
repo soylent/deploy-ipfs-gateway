@@ -1,0 +1,6 @@
+#!/bin/sh
+# bin/detect BUILD_DIR
+
+# This pack is valid for all apps
+echo "IPFS"
+exit 0

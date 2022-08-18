@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -e
+
+./ipfs config Addresses.Gateway "/ip4/0.0.0.0/tcp/$PORT"
+./ipfs daemon --unrestricted-api
